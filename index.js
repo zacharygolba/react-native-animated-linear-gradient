@@ -24,7 +24,6 @@ class LinearGradient extends Component {
   }
 }
 Animated.LinearGradient = Animated.createAnimatedComponent(LinearGradient)
-Animated.useNativeDriver = true
 // Animated.NativeLinearGradient = Animated.createAnimatedComponent(NativeLinearGradient)
 
 export const presetColors = {
@@ -81,12 +80,21 @@ class AnimatedGradient extends Component {
 
     Animated.parallel(
       [color0, color1].map(animatedColor => {
-        return Animated.timing(animatedColor, {
-          toValue: customColors.length,
-          duration: customColors.length * speed,
-          easing: Easing.linear
-        })
-      })
+        return Animated.timing(
+          animatedColor,
+          {
+            toValue: customColors.length,
+            duration: customColors.length * speed,
+            easing: Easing.linear
+          },
+          {
+            useNativeDriver: true
+          }
+        )
+      }),
+      {
+        useNativeDriver: true
+      }
     )
       .start(this.startAnimation);
 
